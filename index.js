@@ -1,8 +1,10 @@
 // TODO: Include packages needed for this application
 const fs = require('fs')
 const inquirer = require('inquirer')
-const generateMarkdown = require('./utils/generateMarkdown')
+const util = require('util');
 
+const generateMarkdown = require('./utils/generateMarkdown')
+const api = require('./utils/api');
 // TODO: Create an array of questions for user input
  const questions = 
  [
@@ -82,7 +84,29 @@ const generateMarkdown = require('./utils/generateMarkdown')
  }
 
     // TODO: Create a function to initialize app
-//function init() {}
+async function init() {
+    try {
+        // Reference inquirer array with prompts
+        const userResponses = await inquirer.prompt(questions);
+        console.log("Your responses: ", userResponses);
+        console.log("Your responses have been logged. Calling to GitHub...");
+
+        // Referencing API.js
+        const userInfo = await api.getUser(userResponses);
+        console.log("Your GitHub user info: ", userInfo);
+
+        // Pass inquirer data and api data to markdown
+        console.log("Generating your markdown")
+        const markdown = generateMarkdown(userResponses, userInfo);
+        console.log(markdown);
+
+        // Write markdown
+        await writeToFile('ExampleREADME.md', markdown);
+
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // Function call to initialize app
-//init();
+init();
