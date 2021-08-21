@@ -29,33 +29,33 @@ function renderLicenseSection(license) {
 }
 
 // TODO: Create a function to generate markdown for README
-function generateMarkdown(data) {
+function generateMarkdown(userResponses, userInfo) {
   // Plug userReponses into table of contents
   let draftTable = `## Table of Contents`;
 
-  if (data.installation !== '') { draftTable += `
+  if (userResponses.installation !== '') { draftTable += `
   * [Installation](#installation)` };
 
-  if (data.usage !== '') { draftTable += `
+  if (userResponses.usage !== '') { draftTable += `
   * [Usage](#usage)` };
 
-  if (data.contributing !== '') { draftTable += `
+  if (userResponses.contributing !== '') { draftTable += `
   * [Contributing](#contributing)` };
 
-  if (data.tests !== '') { draftTable += `
+  if (userResponses.tests !== '') { draftTable += `
   * [Tests](#tests)` };
   
   // Create title and description
   // Generate badges
   let draftMarkdown = 
-  `# ${data.title}
+  `# ${userResponses.title}
   ![Badge for GitHub](https://img.shields.io/github/languages/top/${userResponses.username}/${userResponses.repository}?style=flat&logo=appveyor) 
   
   
   ## Description 
   
   
-  ${data.description}
+  ${userResponses.description}
   `
   // Add table of contents data to markdown
   draftMarkdown += draftTable;
@@ -65,7 +65,7 @@ function generateMarkdown(data) {
   * [License](#license)`;
 
   // Create installation section
-  if (data.installation !== '') {
+  if (userResponses.installation !== '') {
   
   draftMarkdown +=
   `
@@ -73,11 +73,11 @@ function generateMarkdown(data) {
   ## Installation
   
   
-  ${data.installation}`
+  ${userResponses.installation}`
   };
 
   // Create usage section
-  if (data.usage !== '') {
+  if (userResponses.usage !== '') {
   
   draftMarkdown +=
   
@@ -86,21 +86,21 @@ function generateMarkdown(data) {
   ## Usage 
   
    
-  ${data.usage}`
+  ${userResponses.usage}`
   };
   
   // Create contribution section
-  if (data.contributing !== '') {
+  if (userResponses.contributing !== '') {
   `
   
   ## Contributing
   
   
-  ${data.contributing}`
+  ${userResponses.contributing}`
   };
 
   // Create tests section
-  if (data.tests !== '') {
+  if (userResponses.tests !== '') {
   
   draftMarkdown +=
   `
@@ -108,7 +108,7 @@ function generateMarkdown(data) {
   ## Tests
   
   
-  ${data.tests}`
+  ${userResponses.tests}`
   };
 
   // Connect userResponses to license section
@@ -117,7 +117,7 @@ function generateMarkdown(data) {
   
   ## License
   
-  ${data.license}
+  ${userResponses.license}
   `;
 
   // Questions section
@@ -127,19 +127,19 @@ function generateMarkdown(data) {
   
   ## Questions?
   
-  ![Developer Profile Picture](${data.avatar_url}) 
+  ![Developer Profile Picture](${userInfo.avatar_url}) 
   
   For any questions, please contact me with the information below:
  
-  GitHub: [@${data.login}](${userInfo.url})
+  GitHub: [@${userInfo.login}](${userInfo.url})
   `;
 
   // If GitHub email is not null, add to Developer section
-  if (data.email !== null) {
+  if (userInfo.email !== null) {
   
   draftDeveloper +=
   `
-  Email: ${data.email}
+  Email: ${userInfo.email}
   `};
 
  // Add developer section to markdown
